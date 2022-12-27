@@ -3,7 +3,7 @@ import { Link, useLoaderData } from 'react-router-dom';
 import  Review  from "../Review/Review";
 const ServiceDetails = () => {
   const service= useLoaderData();
-  console.log(service)
+  
     const {_id, title, description, picture, prize}=service;
     return (
         
@@ -14,10 +14,10 @@ const ServiceDetails = () => {
           <h2 >Prize: {prize} </h2>
           <p>{description}</p>
           <div className="card-actions justify-end">
-            <Link to='/review'><button  className="btn btn-primary">Review</button></Link>
+            <Link to={`/review/${_id}`}><button  className="btn btn-primary">Review</button></Link>
           </div>
         </div>
-        <Review></Review>
+        <Review service={service} title={title} ></Review>
       </div>
       
     );

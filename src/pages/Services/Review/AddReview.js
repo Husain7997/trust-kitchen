@@ -1,41 +1,77 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import {AuthContext} from '../../Context/AuthProvider/AuthProvider';
+const addReview = ({ user,service }) => {
+ 
+  const handleAddReview = (event)=>{
+    event.preventDefault();
+    const form= event.target;
+    const name= form.name.value;
+    const imgURL= form.imgURL.value;
+    const email= form.email.value || 'UnRegistered';
+    const rating= form.rating.value;
+    const textarea= form.textarea.value;
+   
+    const review={
+      id:service._id,
+      service:service.title,
+      name,
+      imgURL,
+      email,
+      rating,
+      textarea
+    }
+    fetch(`http://localhost:5000/review`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(review)
+    })
+    .then(res=>res.json())
+    .then(data=>{
+      console.log(data);
+      if (data.acknowledged) {
+        form.reset();
+        alert('review successfully')
+      }
+    })
+    .catch(err=>console.log(err))
+}
+  return (
 
-const addReview = () => {
-    // const {user}= useContext(AuthContext)
-
-    return (
-    
-      <div className="hero min-h-screen bg-base-200">
+    <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
 
-        <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+        <div className="card flex-shrink-0 w-full  shadow-2xl bg-base-100">
           <div className="card-body">
-            <div className="form-control indicator">
-              <label className="label">
-                <span className="label-text">Email</span>
-              </label>
-              <span className="indicator-item badge">Required</span>
-              <input type="text"  placeholder="Your email address" className="input input-bordered" />
-              {/* defaultValue={user?.email} */}
-            </div>
+          
 
-            <div className="indicator">
-              <div className="indicator-item indicator-bottom">
-                <button className="btn btn-primary">Review</button>
-              </div>
-              <div className="card border">
-                <div className="card-body">
-                  <textarea className="textarea textarea-primary" placeholder="Bio"></textarea>
+            <form onSubmit={handleAddReview} className="text-center mb-10" >
+            
+              <div className="card w-full ">
+                <div className="card-body grid grid-cols-1 md:grid-cols-2">
+
+                  <input type="text" name='name' defaultValue={user?.displayName} placeholder="Name" className="input input-bordered" />
+                  <input type="text" name='imgURL' defaultValue={user?.photoURL}  className="input input-bordered" />
+                  <input type="email" name='email' defaultValue={user?.email} placeholder="Your email address" className="input input-bordered" />
+                  
+                  <input type="text" name='rating' placeholder="rating" className="input input-bordered" />
                 </div>
               </div>
-            </div>
+              <div className="indicator">
+                <div className="indicator-item indicator-bottom">
+                  <button button='submmit' className="btn btn-primary">Add Review</button>
+                </div>
+                <div className="card border">
+                  <div className="card-body">
+                    <textarea name='textarea' required className="textarea textarea-primary" placeholder="description"></textarea>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
-    );
+  );
 };
 
 export default addReview;

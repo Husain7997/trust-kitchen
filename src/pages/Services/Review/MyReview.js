@@ -1,12 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AddReview from '../Review/AddReview';
 import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
 
 const Review = () => {
   const { user } = useContext(AuthContext);
-
+  const [myReview, setMyReview] = useState([]);
   const addReview = document.getElementById("addReview");
+
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/myreview?email=${user.email}`)
+      .then(response => response.json())
+      .then(data => setMyReview(data))
+  }, [user?.email])
   return (
     <div>
       <div className="overflow-x-auto w-full">
@@ -19,7 +26,7 @@ const Review = () => {
                   <input type="checkbox" className="checkbox" />
                 </label>
               </th>
-              <th>Name</th>
+              <th>Name{myReview.length} </th>
               <th>Job</th>
               <th>Favorite Color</th>
               <th></th>
@@ -60,7 +67,7 @@ const Review = () => {
         </table>
       </div>
 
-<AddReview></AddReview>
+      <AddReview></AddReview>
 
     </div>
   );

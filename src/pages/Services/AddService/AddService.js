@@ -13,6 +13,29 @@ const AddService = () => {
         const rating= form.rating.value;
         const textarea= form.textarea.value;
         console.log(title, prize, rating, textarea);
+
+        const addService={
+            
+            title:title,
+            picture:imgURL,
+            prize,
+            rating:rating,
+            description:textarea,
+          }
+          fetch(`http://localhost:5000/addService`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(addService)
+          })
+          .then(res=>res.json())
+          .then(data=>{
+            console.log(data);
+            if (data.acknowledged) {
+              form.reset();
+              alert('NEW Service successfully')
+            }
+          })
+          .catch(err=>console.log(err))
     }
     return (
         <form onSubmit={handleAddService} className="text-center mb-10" >
@@ -20,10 +43,10 @@ const AddService = () => {
             <div className="card w-full ">
                 <div className="card-body grid grid-cols-1 md:grid-cols-2">
 
-                    <input type="text" name='title' placeholder="title" className="input input-bordered" />
-                    <input type="text" name='imgURL' placeholder="imgURL" className="input input-bordered" />
-                    <input type="text" name='prize' placeholder="prize" className="input input-bordered" />
-                    <input type="text" name='rating' placeholder="rating" className="input input-bordered" />
+                    <input type="text" required name='title' placeholder="title" className="input input-bordered" />
+                    <input type="text" required name='imgURL' placeholder="imgURL" className="input input-bordered" />
+                    <input type="text" required name='prize' placeholder="prize" className="input input-bordered" />
+                    <input type="text" required name='rating' placeholder="rating" className="input input-bordered" />
      </div>
             </div>
             <div className="indicator">
@@ -32,7 +55,7 @@ const AddService = () => {
                 </div>
                 <div className="card border">
                     <div className="card-body">
-                        <textarea name='textarea' className="textarea textarea-primary" placeholder="description"></textarea>
+                        <textarea required name='textarea' className="textarea textarea-primary" placeholder="description"></textarea>
                     </div>
                 </div>
             </div>
