@@ -1,8 +1,8 @@
 import React from 'react';
 
-const ReviewTable = ({review, handleDelete}) => {
+const ReviewTable = ({review, handleDelete, handleEdit}) => {
     
-    const {name,rating,service,textarea,imgURL, _id}=review;
+    const {name,rating,service,textarea,imgURL, _id, status}=review;
 
    console.log(_id)
     return (
@@ -13,7 +13,7 @@ const ReviewTable = ({review, handleDelete}) => {
           <button onClick={()=>handleDelete(_id)} className="btn btn-ghost btn-xs">Delete</button>
         </th>
         <th>
-          <button className="btn btn-ghost btn-xs">Edit</button>
+          <button onClick={()=>handleEdit(_id)}  className="btn btn-ghost btn-xs"> {status?status: 'Edit'}</button>
         </th>
         <td>
           <div className="flex items-center space-x-3">

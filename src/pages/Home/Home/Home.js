@@ -1,53 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Banner from '../Banner/Banner';
 import Services from '../../Services/Services/Services';
 import HomeComponents from '../HomeComponents/HomeComponents';
 import { Link, useLoaderData } from 'react-router-dom';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
+import Service from '../../Services/service/Service';
 
 const Home = () => {
-    const service= useLoaderData()
-    const {_id, title, description, picture, balance}=service;
+  const [homePageService, setHomePageService] = useState([])
 
-    
-    return (
-        <div>
-            <Banner></Banner>
-            <h2>this is Home</h2>
-            
-            <div className="card card-compact w-64 bg-base-100 shadow-xl m-4">
-      <PhotoProvider toolbarRender={({ onScale, scale }) => {
-      <>
-        <svg className="PhotoView-Slider__toolbarIcon" onClick={() => onScale(scale + 1)} />
-        <svg className="PhotoView-Slider__toolbarIcon" onClick={() => onScale(scale - 1)} />
-      </>;
-  }}>
-      <PhotoView src={picture}>
-      <img src={picture} alt="service" />
-      </PhotoView>
-    </PhotoProvider>
-      
-        
-        <div className="card-body">
-          <h2 className="card-title">{title}</h2>
-          <h2 >Prize: {balance} </h2>
-          <p>{description?.slice(0, 100)} ...</p>
-          <div className="card-actions justify-end">
-            <Link to={`/servicedetails/${_id}`}>
-              <button  className="btn btn-primary">View Details</button>
-              </Link>
-          </div>
-        </div>
-        
+
+  useEffect(() => {
+    const url = `http://localhost:5000?size=${3}`;
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        setHomePageService(data);
+      })
+  }, [])
+
+  
+  return (
+    <div>
+      <Banner></Banner>
+      <h2>this is Home {homePageService.length}</h2>
+
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
+        {
+homePageService.map(service => <Service key={service._id}  service={service}></Service>)
+        }
       </div>
 
-<div className="text-center"> <Link to='/services'>
-         <button className="btn btn-primary mt-12 ">See More</button></Link></div>
-            <HomeComponents></HomeComponents>
+      <div className="text-center"> <Link to='/services'>
+        <button className="btn btn-primary mt-12 ">See More</button></Link></div>
+      <HomeComponents></HomeComponents>
 
-        </div>
-    );
+    </div>
+  );
 };
 
 export default Home;

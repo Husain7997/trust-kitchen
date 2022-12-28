@@ -23,7 +23,8 @@ const Review = ({ service }) => {
         .then(data => {
           console.log(data)
           if (data.deletedCount == 1) {
-            alert("Successfully deleted one review.")
+            alert("Successfully deleted one review.");
+            
           }
         });
     }

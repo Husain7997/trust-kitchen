@@ -21,19 +21,35 @@ const Review = (id) => {
           console.log(data)
           if (data.deletedCount == 1) {
             alert("Successfully deleted one review.")
+            const remaining = myReview.filter(rv=>rv._id !== id);
+            const presentReview =[...remaining];
+            setMyReview(presentReview)
           }
         })
     }
   }
+
+  const handleEdit = id => {
+    fetch(`http://localhost:5000/review/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'ok' })
+    })
+    .then(response => response.JSON())
+    .then
+    (data=> {
+      console.log(data);
+    })
+  };
 
 
   useEffect(() => {
     fetch(`http://localhost:5000/myreview?email=${user.email}`)
       .then(response => response.json())
       .then(data => setMyReview(data))
-      if (myReview==null) {
-        return 'No review were Added'
-      } 
+    if (myReview == null) {
+      return 'No review were Added'
+    }
   }, [user?.email])
 
   return (
@@ -53,7 +69,7 @@ const Review = (id) => {
           <tbody>
 
             {
-              myReview.map(review => <ReviewTable key={review._id} handleDelete={handleDelete} review={review}></ReviewTable>)
+              myReview.map(review => <ReviewTable key={review._id} handleEdit={handleEdit} handleDelete={handleDelete} review={review}></ReviewTable>)
             }
           </tbody>
         </table>
