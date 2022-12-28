@@ -2,13 +2,25 @@ import React from 'react';
 
 const ReviewTable = ({review}) => {
     
-    const {name,rating,service,textarea,imgURL}=review;
+    const {name,rating,service,textarea,imgURL, _id}=review;
+
+    const handleDelete = id => {
+const proceed=window.confirm('are you confirm for delete this review');
+if (proceed) {
+    fetch(`http://localhost:5000/myreview?email=${id}`,{
+        method: 'DELETE',
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+    
+}
+    }
     return (
         <div>
              <tr className="flex-nowrap">
         
         <th>
-          <button className="btn btn-ghost btn-xs">Delete</button>
+          <button onClick={()=>handleDelete(_id)} className="btn btn-ghost btn-xs">Delete</button>
         </th>
         <th>
           <button className="btn btn-ghost btn-xs">Edit</button>
