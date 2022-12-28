@@ -9,6 +9,8 @@ import 'react-photo-view/dist/react-photo-view.css';
 const Home = () => {
     const service= useLoaderData()
     const {_id, title, description, picture, balance}=service;
+
+    
     return (
         <div>
             <Banner></Banner>

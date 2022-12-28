@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
-import  AddReview  from "../Review/AddReview";
-import Review from '../Review/Review';
+import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
+
+import AddReview from '../Review/AddReview';
 const ServiceDetails = () => {
-  const service= useLoaderData();
-  
+  const service= useLoaderData([]);
+  const {user}=useContext(AuthContext)
     const {_id, title, description, picture, prize}=service;
     return (
         
         <div className="">
-        <figure><img src={picture} alt="service" /></figure>
+        <figure><img src={picture} alt="service pic" /></figure>
         <div className="card-body">
           <h2 className="card-title">{title}</h2>
           <h2 >Prize: {prize} </h2>
@@ -18,8 +19,8 @@ const ServiceDetails = () => {
             <Link to={`/review/${_id}`}><button  className="btn btn-primary">Review</button></Link>
           </div>
         </div>
-        <Review service={service} title={title} ></Review>
-    
+        {/* <Review ></Review> */}
+    <AddReview service={service} title={title} user={user}></AddReview>
       </div>
       
     );

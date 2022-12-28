@@ -5,7 +5,7 @@ import logo from '../../../assets/logo.ico';
 import { GoogleAuthProvider } from 'firebase/auth';
 import { Result } from 'postcss';
 const Login = () => {
-  const {googleLogin, creareUser}= useContext(AuthContext)
+  const {googleLogin, login}= useContext(AuthContext)
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -13,7 +13,7 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
     
-    creareUser(email, password);
+    login(email, password);
   }
 
   // handle Login With Google

@@ -1,20 +1,10 @@
 import React from 'react';
 
-const ReviewTable = ({review}) => {
+const ReviewTable = ({review, handleDelete}) => {
     
     const {name,rating,service,textarea,imgURL, _id}=review;
 
-    const handleDelete = id => {
-const proceed=window.confirm('are you confirm for delete this review');
-if (proceed) {
-    fetch(`http://localhost:5000/myreview?email=${id}`,{
-        method: 'DELETE',
-    })
-      .then(response => response.json())
-      .then(data => console.log(data))
-    
-}
-    }
+   console.log(_id)
     return (
         <div>
              <tr className="flex-nowrap">
@@ -43,7 +33,7 @@ if (proceed) {
           <br/>
          
         </td>
-       <td className='break-normal' ><p style={{width:'0px'}}>{service.slice(0,20)}...</p></td>
+       <td className='break-normal' ><p style={{width:'0px'}}>{service?.slice(0,20)}...</p></td>
        
       </tr>
         </div>

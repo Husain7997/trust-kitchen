@@ -11,6 +11,7 @@ import Login from '../../Sheard/Login/Login';
 import Register from '../../Sheard/Register/Register';
 import ServiceDetails from '../../Services/ServiceDetails/ServiceDetails';
 import Review from '../../Services/Review/Review';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -27,7 +28,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/addservice',
-                element: <AddService></AddService>
+                element: <PrivateRoute><AddService></AddService></PrivateRoute>
             },
             {
                 path: '/servicedetails/:id',
@@ -36,11 +37,11 @@ const router = createBrowserRouter([
             },
             {
                 path: '/myreview',
-                element: <MyReview></MyReview>
+                element: <PrivateRoute><MyReview></MyReview></PrivateRoute>
             },
             {
                 path: '/review/:id',
-                element: <Review></Review>,
+                element: <PrivateRoute><Review></Review></PrivateRoute>,
                 loader: ({ params }) => fetch(`http://localhost:5000/review/${params.id}`)
             },
             {

@@ -4,23 +4,44 @@ import AddReview from '../Review/AddReview';
 import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
 import ReviewTable from './ReviewTable';
 
-const Review = () => {
+const Review = (id) => {
   const { user } = useContext(AuthContext);
   const [myReview, setMyReview] = useState([]);
-  const addReview = document.getElementById("addReview");
+
+
+  const handleDelete = id => {
+    const proceed = window.confirm('are you confirm for delete this review');
+    if (proceed) {
+      fetch(`http://localhost:5000/review/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          if (data.deletedCount == 1) {
+            alert("Successfully deleted one review.")
+          }
+        })
+    }
+  }
 
 
   useEffect(() => {
     fetch(`http://localhost:5000/myreview?email=${user.email}`)
       .then(response => response.json())
       .then(data => setMyReview(data))
+      if (myReview==null) {
+        return 'No review were Added'
+      } 
   }, [user?.email])
+
   return (
     <div>
       <div className="overflow-x-auto w-full mt-10">
         <table className="table w-full">
 
-        <thead>
+          <thead>
             <tr className="flex flex-nowrap justify-evenly">
 
               <th >Name </th>
@@ -31,9 +52,9 @@ const Review = () => {
           </thead>
           <tbody>
 
-          {
-            myReview.map(review => <ReviewTable key={review._id} review={review}></ReviewTable>)
-          }
+            {
+              myReview.map(review => <ReviewTable key={review._id} handleDelete={handleDelete} review={review}></ReviewTable>)
+            }
           </tbody>
         </table>
       </div>

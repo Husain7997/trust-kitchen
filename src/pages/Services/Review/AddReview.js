@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
 
-const addReview = ({ user,service }) => {
+const addReview = ({ service, user  }) => {
  
   const handleAddReview = (event)=>{
     event.preventDefault();
@@ -13,13 +14,15 @@ const addReview = ({ user,service }) => {
    
     const review={
       id:service._id,
-      service:service.title,
+      title:service.title,
       name,
       imgURL,
       email,
       rating,
       textarea
+      
     }
+    console.log(service._id)
     fetch(`http://localhost:5000/review`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -50,7 +53,7 @@ const addReview = ({ user,service }) => {
                 <div className="card-body grid grid-cols-1 md:grid-cols-2">
 
                   <input type="text" name='name' defaultValue={user?.displayName} placeholder="Name" className="input input-bordered" />
-                  <input type="text" name='imgURL' defaultValue={user?.photoURL}  className="input input-bordered" />
+                  <input type="text" name='imgURL' defaultValue={user?.photoURL} placeholder='your image URl' className="input input-bordered" />
                   <input type="email" name='email' defaultValue={user?.email} placeholder="Your email address" className="input input-bordered" />
                   
                   <input type="text" name='rating' placeholder="rating" className="input input-bordered" />
