@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import AddReview from '../Review/AddReview';
+
 import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
 import ReviewTable from './ReviewTable';
 

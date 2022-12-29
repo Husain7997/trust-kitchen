@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthProvider/AuthProvider';
 import AddReview from '../Review/AddReview';
@@ -22,14 +22,14 @@ const Review = ({ service }) => {
         .then(response => response.json())
         .then(data => {
           console.log(data)
-          if (data.deletedCount == 1) {
+          if (data.deletedCount === 1) {
             alert("Successfully deleted one review.");
             
           }
         });
     }
   }
-  const { name, rating, title, textarea, imgURL } = data;
+  // const { name, rating, title, textarea, imgURL } = data;
   console.log(data)
   return (
     <div>
@@ -47,13 +47,13 @@ const Review = ({ service }) => {
             </tr>
           </thead>
           <tbody>
-            {
-              data.map(review => <ReviewTable
-                key={review._id}
-                handleDelete={handleDelete}
-                review={review}
-              ></ReviewTable>)
-            }
+           
+           {data?.length!==0? data.map(review => <ReviewTable
+            key={review._id}
+            handleDelete={handleDelete}
+            review={review}
+          ></ReviewTable>): <p className="text-center text-3xl m-6">No Review Added</p>}
+          
           </tbody>
         </table>
       </div>
